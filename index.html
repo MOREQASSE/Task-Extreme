@@ -319,14 +319,14 @@
                                 <label for="task-category">Category</label>
                                 <select id="task-category" required>
                                     <option value="">Select a category</option>
-                                    <option value="work" data-color="#3b82f6"><i class="fas fa-briefcase"></i> Work</option>
-                                    <option value="personal" data-color="#10b981"><i class="fas fa-user"></i> Personal</option>
-                                    <option value="health" data-color="#ef4444"><i class="fas fa-heartbeat"></i> Health</option>
-                                    <option value="education" data-color="#8b5cf6"><i class="fas fa-graduation-cap"></i> Education</option>
-                                    <option value="finance" data-color="#f59e0b"><i class="fas fa-money-bill-wave"></i> Finance</option>
-                                    <option value="home" data-color="#06b6d4"><i class="fas fa-home"></i> Home</option>
-                                    <option value="social" data-color="#ec4899"><i class="fas fa-users"></i> Social</option>
-                                    <option value="hobby" data-color="#84cc16"><i class="fas fa-paint-brush"></i> Hobby</option>
+                                    <option value="work" data-color="#3b82f6" data-icon="fa-briefcase">Work</option>
+                                    <option value="personal" data-color="#10b981" data-icon="fa-user">Personal</option>
+                                    <option value="health" data-color="#ef4444" data-icon="fa-heartbeat">Health</option>
+                                    <option value="education" data-color="#8b5cf6" data-icon="fa-graduation-cap">Education</option>
+                                    <option value="finance" data-color="#f59e0b" data-icon="fa-money-bill-wave">Finance</option>
+                                    <option value="home" data-color="#06b6d4" data-icon="fa-home">Home</option>
+                                    <option value="social" data-color="#ec4899" data-icon="fa-users">Social</option>
+                                    <option value="hobby" data-color="#84cc16" data-icon="fa-paint-brush">Hobby</option>
                                 </select>
                             </div>
                             <div class="priority-group">
@@ -1007,6 +1007,188 @@
         const observer = new MutationObserver(updateAIGenerateBtnVisibility);
         observer.observe(aiSectionContent, { attributes: true, attributeFilter: ['class'] });
     }
+
+    // Function to enhance select dropdown with icons
+    function enhanceSelectWithIcons(selectId) {
+        const select = document.getElementById(selectId);
+        if (!select) return;
+
+        // Create a custom dropdown container
+        const customSelect = document.createElement('div');
+        customSelect.className = 'custom-select';
+        
+        // Create the selected item display
+        const selected = document.createElement('div');
+        selected.className = 'select-selected';
+        selected.innerHTML = `
+            <div class="select-selected-content">
+                <i class="fas ${select.options[0].dataset.icon || ''}"></i>
+                <span>${select.options[0].text}</span>
+            </div>
+            <span class="select-arrow">▼</span>
+        `;
+        
+        // Create the dropdown items container
+        const itemsContainer = document.createElement('div');
+        itemsContainer.className = 'select-items select-hide';
+        
+        // Add options to the dropdown
+        for (let i = 0; i < select.options.length; i++) {
+            const option = select.options[i];
+            const item = document.createElement('div');
+            item.className = 'select-item';
+            item.innerHTML = `<i class="fas ${option.dataset.icon || ''}"></i> <span>${option.text}</span>`;
+            item.dataset.value = option.value;
+            
+            // Set click handler for each item
+            item.addEventListener('click', function() {
+                // Update the original select
+                select.selectedIndex = i;
+                
+                // Update the selected display
+                const icon = this.querySelector('i').className;
+                const text = this.querySelector('span').textContent;
+                selected.innerHTML = `
+                    <div class="select-selected-content">
+                        <i class="${icon}"></i>
+                        <span>${text}</span>
+                    </div>
+                    <span class="select-arrow">▼</span>
+                `;
+                
+                // Close the dropdown
+                itemsContainer.classList.add('select-hide');
+                
+                // Trigger change event
+                const event = new Event('change');
+                select.dispatchEvent(event);
+            });
+            
+            itemsContainer.appendChild(item);
+        }
+        
+        // Toggle dropdown on click
+        selected.addEventListener('click', function(e) {
+            e.stopPropagation();
+            itemsContainer.classList.toggle('select-hide');
+        });
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function() {
+            itemsContainer.classList.add('select-hide');
+        });
+        
+        // Assemble the custom select
+        customSelect.appendChild(selected);
+        customSelect.appendChild(itemsContainer);
+        
+        // Insert the custom select after the original select and hide the original
+        select.parentNode.insertBefore(customSelect, select.nextSibling);
+        select.style.display = 'none';
+        
+        // Update the custom select when the original select changes
+        select.addEventListener('change', function() {
+            const selectedOption = this.options[this.selectedIndex];
+            selected.innerHTML = `
+                <div class="select-selected-content">
+                    <i class="fas ${selectedOption.dataset.icon || ''}"></i>
+                    <span>${selectedOption.text}</span>
+                </div>
+                <span class="select-arrow">▼</span>
+            `;
+        });
+    }
+    
+    // Initialize the enhanced select when the DOM is loaded
+    document.addEventListener('DOMContentLoaded', function() {
+        enhanceSelectWithIcons('task-category');
+    });
     </script>
+    
+    <style>
+    /* Custom select styles */
+    .custom-select {
+        position: relative;
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+    
+    .select-selected {
+        background-color: var(--primary);
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        transition: all 0.2s ease;
+    }
+    
+    .select-selected-content {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        flex: 1;
+    }
+    
+    .select-arrow {
+        font-size: 0.7em;
+        opacity: 0.7;
+        transition: transform 0.2s ease;
+    }
+    
+    .select-selected:hover .select-arrow {
+        opacity: 1;
+    }
+    
+    .select-items:not(.select-hide) + .select-selected .select-arrow {
+        transform: rotate(180deg);
+    }
+    
+    .select-selected:hover {
+        border-color: var(--accent);
+    }
+    
+    .select-items {
+        position: absolute;
+        background-color: var(--primary);
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        margin-top: 0.25rem;
+        width: 100%;
+        max-height: 200px;
+        overflow-y: auto;
+        z-index: 1000;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .select-item {
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .select-item:hover {
+        background-color: var(--secondary);
+        color: var(--accent);
+    }
+    
+    .select-hide {
+        display: none;
+    }
+    
+    .select-items div:first-child {
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px;
+    }
+    
+    .select-items div:last-child {
+        border-bottom-left-radius: 4px;
+        border-bottom-right-radius: 4px;
+    }
+    </style>
 </body>
 </html>

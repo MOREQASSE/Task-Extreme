@@ -64,17 +64,21 @@
             <i class="fas fa-home"></i>
             <span class="nav-text">Home</span>
         </a>
+        <a href="#progress-dashboard-section">
+            <i class="fas fa-chart-bar"></i>
+            <span class="nav-text">Dashboard</span>
+        </a>
         <a href="#calendar-section">
             <i class="far fa-calendar-alt"></i>
             <span class="nav-text">Calendar</span>
         </a>
+        <a href="#task-form-section">
+            <i class="fas fa-plus-circle"></i>
+            <span class="nav-text">New Task</span>
+        </a>
         <a href="#tools-section">
             <i class="fas fa-tools"></i>
             <span class="nav-text">Tools</span>
-        </a>
-        <a href="#footer-contact">
-            <i class="far fa-envelope"></i>
-            <span class="nav-text">Contact</span>
         </a>
         <a href="#donate-section" class="donate-nav">
             <i class="fas fa-heart"></i>
@@ -126,10 +130,6 @@
                         <a href="templates.html" class="manage-templates-link">Manage Templates…</a>
                     </div>
                 </div>
-                <button id="generate-pdf" class="action-btn pdf-btn" title="Generate PDF of tasks of the day">
-                    <span class="btn-icon"><i class="far fa-file-alt"></i></span>
-                    <span class="btn-text">Download PDF</span>
-                </button>
                 <div class="theme-dropdown">
                     <button id="theme-dropdown-btn" class="theme-dropdown-btn" title="Select Theme">
                         <span class="btn-text">Light Mode</span>
@@ -570,6 +570,9 @@
                     <span class="icon"><i class="fas fa-file-import"></i></span> Import Tasks
                     <input type="file" id="import-file-input" accept=".json" style="display: none;">
                 </button>
+                <button id="generate-pdf" class="tool-btn" title="Generate PDF of tasks of the day">
+                    <span class="icon"><i class="far fa-file-pdf"></i></span> Download PDF
+                </button>
             </div>
             <button id="focus-mode-btn" class="tool-btn">
                 <span class="icon"><i class="fas fa-search"></i></span> Focus Mode - Tomodoro technique
@@ -921,9 +924,15 @@
     <nav class="mobile-bottom-nav">
         <ul class="mobile-nav-items">
             <li>
-                <a href="#home" class="mobile-nav-item active">
+                <a href="#home" class="mobile-nav-item">
                     <i class="fas fa-home"></i>
                     <span class="mobile-nav-text">Home</span>
+                </a>
+            </li>
+            <li>
+                <a href="#progress-dashboard-section" class="mobile-nav-item">
+                    <i class="fas fa-chart-bar"></i>
+                    <span class="mobile-nav-text">Dashboard</span>
                 </a>
             </li>
             <li>
@@ -933,9 +942,9 @@
                 </a>
             </li>
             <li>
-                <a href="#progress-dashboard-section" class="mobile-nav-item">
-                    <i class="fas fa-chart-bar"></i>
-                    <span class="mobile-nav-text">Stats</span>
+                <a href="#task-form-section" class="mobile-nav-item">
+                    <i class="fas fa-plus-circle"></i>
+                    <span class="mobile-nav-text">New Task</span>
                 </a>
             </li>
             <li>
@@ -955,6 +964,7 @@
 
     <!-- Scripts in correct order -->
     <script src="./scripts/theme.js"></script>
+    <script src="./js/scroll-spy.js"></script>
     <script src="./scripts/collapsible-sections.js"></script>
     <script src="./scripts/progress-dashboard.js"></script>
     <script src="./scripts/drag-drop.js"></script>

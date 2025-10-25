@@ -442,6 +442,53 @@ body {
   color: white;
 }
 
+/* ===== CONNECTION STATUS ===== */
+.connection-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-left: 15px;
+    transition: all 0.3s ease;
+}
+
+.connection-status i {
+    font-size: 0.9em;
+}
+
+.connection-status.online {
+    background-color: rgba(16, 185, 129, 0.1);
+    color: var(--success, #10b981);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.connection-status.offline {
+    background-color: rgba(239, 68, 68, 0.1);
+    color: var(--error, #ef4444);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+/* Ensure the connection status text and icon use the theme's foreground color */
+.connection-status,
+.connection-status i {
+    color: var(--foreground);
+    transition: all var(--transition-normal);
+}
+
+/* Override for online/offline states */
+.connection-status.online,
+.connection-status.online i {
+    color: var(--success, #10b981);
+}
+
+.connection-status.offline,
+.connection-status.offline i {
+    color: var(--error, #ef4444);
+}
+
 /* ===== STREAK COUNTER ===== */
 .streak-counter {
   background: linear-gradient(135deg, var(--accent), #1760c4);

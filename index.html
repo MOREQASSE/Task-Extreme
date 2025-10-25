@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="./styles/main.css"/>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script> <!--PDF generation js library-->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.29/jspdf.plugin.autotable.min.js"></script><!--PDF Tables and rows formation js library-->
+  <script type="module" src="/js/offline.js"></script>
   <style>
     html {
         scroll-behavior: smooth;
@@ -81,6 +82,9 @@
             <!-- Logo -->
             <div class="navbar-left">
                 <img src="images/icon.png" alt="TaskExtreme Logo" class="logo-icon" style="height: 4em; vertical-align: middle;" />
+                <div id="connection-status" class="connection-status" title="Connection status">
+                    <i class="fas fa-wifi"></i> Online
+                </div>
             </div>
             
             <!-- Date Navigation -->

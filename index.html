@@ -55,6 +55,37 @@
         font-size: 0.9em;
         color: #888;
     }
+    
+    /* Theme Showcase */
+    .theme-showcase {
+        width: 100%;
+        max-width: 1200px;
+        margin: 2rem auto;
+        text-align: center;
+    }
+    
+    .theme-showcase img {
+        max-width: 100%;
+        height: auto;
+        margin: 0 auto;
+    }
+    
+    .theme-desktop {
+        display: block;
+    }
+    
+    .theme-mobile {
+        display: none;
+    }
+    
+    @media (max-width: 768px) {
+        .theme-desktop {
+            display: none;
+        }
+        .theme-mobile {
+            display: block;
+        }
+    }
 </style>
 </head>
 <body>
@@ -121,6 +152,12 @@
                     <li><i class="fas fa-spinner"></i><span><b>Progress Overview:</b> See your daily and weekly progress at a glance.</span></li>
                 </ul>
             </div>
+        </div>
+        
+        <!-- Theme Showcase -->
+        <div class="theme-showcase">
+            <img src="images/9 themes pc.png" alt="TaskExtreme Themes on Desktop" class="theme-desktop">
+            <img src="images/9 themes mobile.png" alt="TaskExtreme Themes on Mobile" class="theme-mobile">
         </div>
     </section>
 <!-- Main Navigation Bar -->

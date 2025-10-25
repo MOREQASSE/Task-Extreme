@@ -50,27 +50,40 @@ function initializeScrollSpy() {
 
   // Function to get the current section in viewport
   function getCurrentSection() {
-    let currentSection = '';
     const scrollPosition = window.scrollY + (window.innerHeight * 0.2); // 20% from top of viewport
+    let currentSection = 'home'; // Default to home if no section is in view
+    
+    // If we're at the very top of the page, it's definitely the home section
+    if (window.scrollY < 100) {
+      return 'home';
+    }
+    
+    // Get hero section element
+    const heroSection = document.getElementById('hero-section');
+    if (heroSection) {
+      const heroRect = heroSection.getBoundingClientRect();
+      // If hero section is in viewport, consider it as home
+      if (heroRect.top < window.innerHeight && heroRect.bottom > 0) {
+        return 'home';
+      }
+    }
     
     // Find the current section in viewport
     for (let i = 0; i < sections.length; i++) {
       const section = sections[i];
-      const sectionTop = section.offsetTop;
+      const sectionTop = section.offsetTop - 100; // Account for header
       const sectionHeight = section.offsetHeight;
       const sectionId = section.getAttribute('id');
+      const sectionBottom = sectionTop + sectionHeight;
       
-      // If we've scrolled past this section's top
-      if (scrollPosition >= sectionTop) {
+      // Check if section is in viewport
+      if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
         currentSection = sectionId;
-      } else {
-        // As soon as we find a section below the current scroll position, we can break
         break;
       }
     }
     
-    // If no section found (shouldn't happen), default to home
-    return currentSection || 'home';
+    return currentSection;
   }
 
   // Function to update the active navigation link
@@ -82,7 +95,11 @@ function initializeScrollSpy() {
     allNavLinks.forEach(link => {
       const href = link.getAttribute('href');
       const targetSection = href.substring(1); // Remove the '#'
-      const isActive = targetSection === currentSection;
+      // Special case for home link - should be active for both home and hero-section
+      const isHomeLink = targetSection === 'home' || targetSection === '';
+      const isActive = isHomeLink 
+        ? (currentSection === 'home' || currentSection === 'hero-section')
+        : (targetSection === currentSection);
       
       // For mobile nav items, they have a parent <li> that might need updating
       if (link.classList.contains('mobile-nav-item')) {
@@ -135,11 +152,24 @@ function initializeScrollSpy() {
     link.addEventListener('click', function(e) {
       e.preventDefault();
       const targetId = this.getAttribute('href');
-      const targetSection = document.querySelector(targetId);
+      let targetElement;
       
-      if (targetSection) {
+      // Handle home link (points to #home but should scroll to hero-section)
+      if (targetId === '#home' || targetId === '#') {
+        targetElement = document.getElementById('hero-section');
+        // Update the URL to show #home instead of #hero-section
+        if (history.pushState) {
+          history.pushState(null, null, '#');
+        } else {
+          window.location.hash = '';
+        }
+      } else {
+        targetElement = document.querySelector(targetId);
+      }
+      
+      if (targetElement) {
         const headerOffset = 100;
-        const elementPosition = targetSection.getBoundingClientRect().top;
+        const elementPosition = targetElement.getBoundingClientRect().top;
         const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
         window.scrollTo({
@@ -147,11 +177,13 @@ function initializeScrollSpy() {
           behavior: 'smooth'
         });
 
-        // Update URL without page jump
-        if (history.pushState) {
-          history.pushState(null, null, targetId);
-        } else {
-          window.location.hash = targetId;
+        // Update URL without page jump (only if not home)
+        if (targetId !== '#home' && targetId !== '#') {
+          if (history.pushState) {
+            history.pushState(null, null, targetId);
+          } else {
+            window.location.hash = targetId;
+          }
         }
         
         // Update active state after a small delay

@@ -2074,6 +2074,11 @@ footer {
         gap: var(--spacing-lg);
         text-align: center;
     }
+    
+    /* For the second hero section with image first on mobile */
+    .hero-container.hero-container-reverse {
+        flex-direction: column-reverse;
+    }
 
     .hero-title {
         font-size: 2rem;

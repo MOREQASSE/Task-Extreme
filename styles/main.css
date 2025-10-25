@@ -1,3 +1,114 @@
+/* ===== NOTIFICATION STYLES ===== */
+.notification-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 350px;
+    width: 100%;
+}
+
+.notification {
+    position: relative;
+    padding: 15px 20px;
+    border-radius: 8px;
+    color: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transform: translateX(120%);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    overflow: hidden;
+}
+
+.notification.show {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.notification.hide {
+    transform: translateX(120%);
+    opacity: 0;
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin: 0;
+    border: 0;
+}
+
+.notification-icon {
+    font-size: 1.3em;
+    margin-top: 2px;
+    flex-shrink: 0;
+}
+
+.notification-content {
+    flex: 1;
+    font-size: 0.95em;
+    line-height: 1.4;
+}
+
+.notification-close {
+    background: none;
+    border: none;
+    color: inherit;
+    opacity: 0.7;
+    cursor: pointer;
+    padding: 0;
+    margin-left: 10px;
+    font-size: 1.1em;
+    transition: opacity 0.2s;
+}
+
+.notification-close:hover {
+    opacity: 1;
+}
+
+.notification-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.3);
+    width: 100%;
+    transform-origin: left;
+    transform: scaleX(1);
+    transition: transform 0.1s linear;
+}
+
+/* Notification Types */
+.notification-success {
+    background: var(--success);
+    border-left: 4px solid var(--success-hover);
+}
+
+.notification-error {
+    background: var(--error);
+    border-left: 4px solid var(--error-hover);
+}
+
+.notification-warning {
+    background: var(--warning);
+    border-left: 4px solid var(--warning-hover);
+    color: #1a1a1a;
+}
+
+.notification-info {
+    background: var(--accent);
+    border-left: 4px solid var(--accent-hover);
+}
+
+/* Animation for progress bar */
+@keyframes progress {
+    from { transform: scaleX(1); }
+    to { transform: scaleX(0); }
+}
+
 /* ===== CSS VARIABLES ===== */
 :root {
   --modal-overlay-bg: rgb(255, 255, 255, 0.9);

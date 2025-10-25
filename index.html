@@ -899,6 +899,9 @@
         </div>
     </div>
 
+    <!-- Notification Container -->
+    <div id="notification-container" class="notification-container"></div>
+
     <!-- Mobile Bottom Navigation -->
     <nav class="mobile-bottom-nav">
         <ul class="mobile-nav-items">
@@ -1202,12 +1205,100 @@
     
     // Show notification to user
     function showNotification(message, type = 'info') {
-        // Check if notification system exists, if not, use alert
-        if (window.showAppNotification) {
-            window.showAppNotification(message, type);
-        } else {
-            // Fallback to browser alert
-            alert(`${type.toUpperCase()}: ${message}`);
+        // Define icons for different notification types
+        const icons = {
+            success: 'check-circle',
+            error: 'exclamation-circle',
+            warning: 'exclamation-triangle',
+            info: 'info-circle'
+        };
+
+        // Create notification element
+        const notification = document.createElement('div');
+        notification.className = `notification notification-${type}`;
+        
+        // Set notification content
+        notification.innerHTML = `
+            <i class="fas fa-${icons[type] || 'info-circle'} notification-icon"></i>
+            <div class="notification-content">${message}</div>
+            <button class="notification-close">&times;</button>
+            <div class="notification-progress"></div>
+        `;
+        
+        // Get notification container or create it if it doesn't exist
+        let container = document.getElementById('notification-container');
+        if (!container) {
+            container = document.createElement('div');
+            container.id = 'notification-container';
+            container.className = 'notification-container';
+            document.body.appendChild(container);
+        }
+        
+        // Add notification to container
+        container.insertBefore(notification, container.firstChild);
+        
+        // Show notification with animation
+        setTimeout(() => {
+            notification.classList.add('show');
+            
+            // Animate progress bar
+            const progress = notification.querySelector('.notification-progress');
+            if (progress) {
+                progress.style.transform = 'scaleX(0)';
+                progress.style.transition = 'transform 4s linear';
+            }
+        }, 10);
+        
+        // Auto-remove notification after delay
+        const autoRemoveTime = type === 'error' ? 8000 : 5000;
+        let removeTimeout = setTimeout(() => {
+            hideNotification(notification);
+        }, autoRemoveTime);
+        
+        // Close on click
+        const closeBtn = notification.querySelector('.notification-close');
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => {
+                clearTimeout(removeTimeout);
+                hideNotification(notification);
+            });
+        }
+        
+        // Pause auto-remove on hover
+        notification.addEventListener('mouseenter', () => {
+            clearTimeout(removeTimeout);
+            if (progress) {
+                progress.style.transition = 'none';
+                progress.style.transform = 'scaleX(1)';
+            }
+        });
+        
+        // Resume auto-remove when mouse leaves
+        notification.addEventListener('mouseleave', () => {
+            const remainingWidth = progress ? progress.offsetWidth / notification.offsetWidth : 1;
+            const remainingTime = remainingWidth * autoRemoveTime;
+            
+            removeTimeout = setTimeout(() => {
+                hideNotification(notification);
+            }, remainingTime);
+            
+            if (progress) {
+                progress.style.transition = `transform ${remainingTime}ms linear`;
+                progress.style.transform = 'scaleX(0)';
+            }
+        });
+        
+        // Function to hide notification with animation
+        function hideNotification(notification) {
+            notification.classList.remove('show');
+            notification.classList.add('hide');
+            
+            // Remove from DOM after animation
+            notification.addEventListener('transitionend', () => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, { once: true });
         }
     }
     

@@ -498,6 +498,7 @@ body {
   font-weight: 600;
   font-size: 0.9rem;
   box-shadow: var(--shadow);
+  width:auto;
 }
 
 /* ===== MAIN NAVIGATION BAR ===== */
@@ -536,9 +537,11 @@ body {
 .navbar-center {
   display: flex;
   align-items: center;
-  gap: var(--spacing-md);
-  flex: 1;
+  gap: 0.5rem;
+  flex: 0 1 auto;
+  min-width: 0;
   justify-content: center;
+  margin: 0 0.5rem;
 }
 
 .navbar-right {
@@ -2078,6 +2081,26 @@ footer {
   .navbar {
     padding: 0.5rem 0.8rem;
     min-height: 52px;
+  }
+  
+  .navbar-content {
+    gap: 0.5rem;
+  }
+  
+  .date-display {
+    min-width: 70px;
+    font-size: 0.9em;
+    padding: 0 0.2rem;
+  }
+  
+  .today-btn {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.85em;
+  }
+  
+  .week-nav-btn {
+    width: 30px;
+    height: 30px;
   }
   
   .navbar-content {

@@ -547,6 +547,15 @@
         <!-- Tools Section -->
         <aside id="tools-section" class="card-section">
             <h2><span class="section-icon"><i class="fas fa-tools"></i></span> Tools</h2>
+            <div class="tool-buttons-row">
+                <button id="export-tasks-btn" class="tool-btn" title="Export all tasks">
+                    <span class="icon"><i class="fas fa-file-export"></i></span> Export Tasks
+                </button>
+                <button id="import-tasks-btn" class="tool-btn" title="Import tasks from file">
+                    <span class="icon"><i class="fas fa-file-import"></i></span> Import Tasks
+                    <input type="file" id="import-file-input" accept=".json" style="display: none;">
+                </button>
+            </div>
             <button id="focus-mode-btn" class="tool-btn">
                 <span class="icon"><i class="fas fa-search"></i></span> Focus Mode - Tomodoro technique
             </button>
@@ -1100,12 +1109,205 @@
     }
     
     // Initialize the enhanced select when the DOM is loaded
+    // Export tasks to JSON file
+    function exportTasks() {
+        try {
+            const tasks = JSON.parse(localStorage.getItem('taskextreme_tasks') || '[]');
+            const checked = JSON.parse(localStorage.getItem('taskextreme_checked') || '{}');
+            
+            if (tasks.length === 0) {
+                showNotification('No tasks to export', 'info');
+                return;
+            }
+            
+            const exportData = {
+                version: '1.0',
+                exportedAt: new Date().toISOString(),
+                tasks: tasks,
+                checked: checked
+            };
+            
+            const dataStr = JSON.stringify(exportData, null, 2);
+            const dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr);
+            
+            const exportFileDefaultName = `TaskExtreme-Tasks-${new Date().toISOString().split('T')[0]}.json`;
+            
+            const linkElement = document.createElement('a');
+            linkElement.setAttribute('href', dataUri);
+            linkElement.setAttribute('download', exportFileDefaultName);
+            linkElement.click();
+            
+            showNotification('Tasks exported successfully!', 'success');
+        } catch (error) {
+            console.error('Error exporting tasks:', error);
+            showNotification('Failed to export tasks', 'error');
+        }
+    }
+    
+    // Import tasks from JSON file
+    function importTasks(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            
+            reader.onload = (event) => {
+                try {
+                    const data = JSON.parse(event.target.result);
+                    
+                    // Validate the imported data
+                    if (!data.tasks || !Array.isArray(data.tasks)) {
+                        throw new Error('Invalid file format: tasks array not found');
+                    }
+                    
+                    // Get existing tasks
+                    const existingTasks = JSON.parse(localStorage.getItem('taskextreme_tasks') || '[]');
+                    const existingChecked = JSON.parse(localStorage.getItem('taskextreme_checked') || '{}');
+                    
+                    // Merge tasks (skip duplicates by ID)
+                    const existingTaskIds = new Set(existingTasks.map(t => t.id));
+                    const newTasks = data.tasks.filter(task => !existingTaskIds.has(task.id));
+                    
+                    if (newTasks.length === 0) {
+                        resolve({ imported: 0, total: data.tasks.length, message: 'No new tasks to import' });
+                        return;
+                    }
+                    
+                    // Add new tasks
+                    const updatedTasks = [...existingTasks, ...newTasks];
+                    
+                    // Merge checked status
+                    const updatedChecked = { ...existingChecked, ...(data.checked || {}) };
+                    
+                    // Save to localStorage
+                    localStorage.setItem('taskextreme_tasks', JSON.stringify(updatedTasks));
+                    localStorage.setItem('taskextreme_checked', JSON.stringify(updatedChecked));
+                    
+                    resolve({
+                        imported: newTasks.length,
+                        total: data.tasks.length,
+                        message: `Imported ${newTasks.length} of ${data.tasks.length} tasks`
+                    });
+                } catch (error) {
+                    console.error('Error importing tasks:', error);
+                    reject(new Error('Invalid or corrupted file. Please check the file format.'));
+                }
+            };
+            
+            reader.onerror = () => {
+                reject(new Error('Error reading file'));
+            };
+            
+            reader.readAsText(file);
+        });
+    }
+    
+    // Show notification to user
+    function showNotification(message, type = 'info') {
+        // Check if notification system exists, if not, use alert
+        if (window.showAppNotification) {
+            window.showAppNotification(message, type);
+        } else {
+            // Fallback to browser alert
+            alert(`${type.toUpperCase()}: ${message}`);
+        }
+    }
+    
+    // Initialize event listeners when DOM is loaded
     document.addEventListener('DOMContentLoaded', function() {
+        // Initialize enhanced select
         enhanceSelectWithIcons('task-category');
+        
+        // Export button click handler
+        const exportBtn = document.getElementById('export-tasks-btn');
+        if (exportBtn) {
+            exportBtn.addEventListener('click', exportTasks);
+        }
+        
+        // Import button click handler
+        const importBtn = document.getElementById('import-tasks-btn');
+        const fileInput = document.getElementById('import-file-input');
+        
+        if (importBtn && fileInput) {
+            // Click the hidden file input when import button is clicked
+            importBtn.addEventListener('click', () => {
+                fileInput.click();
+            });
+            
+            // Handle file selection
+            fileInput.addEventListener('change', async (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+                
+                // Check file type
+                if (!file.name.endsWith('.json')) {
+                    showNotification('Please select a JSON file', 'error');
+                    return;
+                }
+                
+                // Show confirmation dialog
+                const confirmImport = confirm('Importing tasks will add them to your existing tasks. Continue?');
+                if (!confirmImport) {
+                    fileInput.value = ''; // Reset file input
+                    return;
+                }
+                
+                try {
+                    const result = await importTasks(file);
+                    showNotification(result.message || 'Tasks imported successfully!', 'success');
+                    
+                    // Refresh the UI if needed
+                    if (window.renderTasks) {
+                        window.renderTasks();
+                    }
+                } catch (error) {
+                    console.error('Import error:', error);
+                    showNotification(error.message || 'Failed to import tasks', 'error');
+                } finally {
+                    // Reset file input
+                    fileInput.value = '';
+                }
+            });
+        }
     });
     </script>
     
     <style>
+    /* Tool Buttons Row */
+    .tool-buttons-row {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 1rem;
+    }
+    
+    .tool-buttons-row .tool-btn {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 0.6rem 0.8rem;
+        font-size: 0.9rem;
+    }
+    
+    .tool-buttons-row .tool-btn .icon {
+        font-size: 0.9em;
+    }
+    
+    /* Import/Export specific styles */
+    #import-tasks-btn {
+        position: relative;
+        overflow: hidden;
+    }
+    
+    #import-file-input {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        cursor: pointer;
+    }
+    
     /* Custom select styles */
     .custom-select {
         position: relative;

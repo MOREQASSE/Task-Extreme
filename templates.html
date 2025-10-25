@@ -1,0 +1,135 @@
+<!-- TaskExtreme: Task Templates Section -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TaskExtreme Templates</title>
+  <script src="scripts/theme-sync.js"></script>
+  <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+  <!-- Top Navigation (same as index.html) -->
+  <nav class="topnav">
+    <a href="index.html"><b>Home</b></a>
+    <a href="#" class="active"><b>Templates</b></a>
+    <a href="index.html#calendar-section"><b>Calendar</b></a>
+    <a href="index.html#tools-section"><b>Tools</b></a>
+    <a href="index.html#footer-contact"><b>Contact</b></a>
+    <a href="index.html#donate-section"><b>Donate</b></a>
+  </nav>
+
+  <!-- Main Navigation Bar (matches index.html) -->
+  <header class="navbar">
+    <div class="navbar-content">
+      <div class="navbar-left">
+        <img src="images/icon.png" alt="TaskExtreme Logo" class="logo-icon" style="height: 4em; vertical-align: middle;" />
+      </div>
+      <div class="navbar-center">
+        <h1 style="font-size:2em; font-weight:800; margin:0; color:var(--template-btn-bg); letter-spacing:0.01em;">Task Templates</h1>
+      </div>
+      <div class="navbar-right">
+        <a href="index.html" class="btn-secondary" style="margin-right:0.5em;">← Back to Tasks</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="templates-main">
+    <section class="template-card">
+      <section class="template-actions">
+        <button id="create-template-btn" class="btn-primary">+ New Template</button>
+        <button id="import-template-btn" class="btn-secondary">Import</button>
+        <button id="export-template-btn" class="btn-secondary">Export</button>
+      </section>
+
+      <section id="template-groups" class="template-groups">
+        <!-- Template groups and cards will be rendered here -->
+      </section>
+
+      <!-- Template Editor Modal -->
+      <div id="template-editor-modal" class="modal" style="display:none;">
+        <div class="modal-content template-editor-content">
+          <span class="close" id="close-template-editor">&times;</span>
+          <h2 id="template-editor-title">New Template</h2>
+          <form id="template-editor-form">
+            <input type="hidden" id="template-id">
+            <div class="form-row">
+              <label for="template-name">Template Name</label>
+              <input type="text" id="template-name" required maxlength="40">
+            </div>
+            <div class="form-row">
+              <label for="template-icon">Icon</label>
+              <input type="text" id="template-icon" maxlength="2" placeholder="e.g. ☀️">
+              <label for="template-color">Color</label>
+              <input type="color" id="template-color" value="#2563eb">
+            </div>
+            <div class="form-row">
+              <label for="template-group">Group/Type</label>
+              <input type="text" id="template-group" maxlength="20" placeholder="e.g. Routine, Work">
+            </div>
+            <div class="form-row">
+              <label for="template-repeat">Repeat</label>
+              <select id="template-repeat">
+                <option value="none">None</option>
+                <option value="everyday">Every Day</option>
+                <option value="weekday">Weekdays</option>
+                <option value="weekend">Weekends</option>
+                <option value="custom">Custom</option>
+              </select>
+            </div>
+
+            <div class="form-row">
+              <label>Tasks in Template</label>
+              <ul id="template-tasks-list" class="template-tasks-list"></ul>
+              <button type="button" id="add-template-task" class="btn-secondary">+ Add Task</button>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn-primary">Save Template</button>
+              <button type="button" id="delete-template-btn" class="btn-danger" style="display:none;">Delete</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Add/Edit Task in Template Modal -->
+      <div id="template-task-modal" class="modal" style="display:none;">
+        <div class="modal-content">
+          <span class="close" id="close-template-task-modal">&times;</span>
+          <h3 id="template-task-modal-title">Add Task</h3>
+          <form id="template-task-form">
+            <input type="hidden" id="template-task-index">
+            <div class="form-row">
+              <label for="template-task-title">Title</label>
+              <input type="text" id="template-task-title" required maxlength="40">
+            </div>
+            <div class="form-row">
+              <label for="template-task-details">Details</label>
+              <input type="text" id="template-task-details" maxlength="100">
+            </div>
+            <div class="form-row">
+              <label for="template-task-category">Category</label>
+              <input type="text" id="template-task-category" maxlength="20">
+              <label for="template-task-priority">Priority</label>
+              <select id="template-task-priority">
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+              </select>
+              <label for="template-task-time">Time (optional)</label>
+              <input type="time" id="template-task-time">
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn-primary">Save Task</button>
+            </div>
+          </form>
+        </div>
+        </form>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="scripts/templates.js"></script>
+  <script src="scripts/templates-ui.js"></script>
+</body>
+</html>

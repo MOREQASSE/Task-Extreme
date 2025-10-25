@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>TaskExtreme</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="./styles/main.css"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script> <!--PDF generation js library-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.29/jspdf.plugin.autotable.min.js"></script><!--PDF Tables and rows formation js library-->
+  <style>
+    html {
+        scroll-behavior: smooth;
+    }
+    .styled-upload {
+        display: flex;
+        align-items: center;
+        border: 2px dashed #bbb;
+        border-radius: 8px;
+        padding: 10px 16px;
+        background: #fafbfc;
+        cursor: pointer;
+        transition: border-color 0.2s;
+        margin-bottom: 8px;
+    }
+    .styled-upload.dragover {
+        border-color: #007bff;
+        background: #e6f0ff;
+    }
+    .file-upload-icon {
+        font-size: 1.5em;
+        margin-right: 12px;
+    }
+    .file-upload-input {
+        display: none;
+    }
+    .file-upload-text {
+        flex: 1;
+    }
+    .file-name {
+        font-weight: 500;
+        color: #333;
+    }
+    .file-hint {
+        font-size: 0.9em;
+        color: #888;
+    }
+  </style>
+</head>
+<body>
+    <!-- Top Navigation -->
+    <nav class="topnav">
+        <a class="active" href="#home">
+            <i class="fas fa-home"></i>
+            <span class="nav-text">Home</span>
+        </a>
+        <a href="#calendar-section">
+            <i class="far fa-calendar-alt"></i>
+            <span class="nav-text">Calendar</span>
+        </a>
+        <a href="#tools-section">
+            <i class="fas fa-tools"></i>
+            <span class="nav-text">Tools</span>
+        </a>
+        <a href="#footer-contact">
+            <i class="far fa-envelope"></i>
+            <span class="nav-text">Contact</span>
+        </a>
+        <a href="#donate-section" class="donate-nav">
+            <i class="fas fa-heart"></i>
+            <span class="nav-text">Donate</span>
+        </a>
+    </nav>
+    
+    <!-- Streak Counter -->
+    <div class="streak-counter" id="streak-counter"></div>
+                <!-- Action Buttons -->
+            <div class="navbar-right">
+                <div class="templates-dropdown">
+                    <button id="templates-dropdown-btn" class="action-btn templates-btn" title="Quick Add from Template">
+                        <span class="btn-icon"><i class="far fa-clipboard"></i></span>
+                        <span class="btn-text">Templates</span>
+                        <span class="dropdown-arrow">▼</span>
+                    </button>
+                    <div id="templates-dropdown-menu" class="templates-dropdown-menu" style="display:none;">
+                        <!-- Templates will be populated by JS -->
+                        <div class="templates-list" id="templates-list"></div>
+                        <a href="templates.html" class="manage-templates-link">Manage Templates…</a>
+                    </div>
+                </div>
+                <button id="generate-pdf" class="action-btn pdf-btn" title="Generate PDF of tasks of the day">
+                    <span class="btn-icon"><i class="far fa-file-alt"></i></span>
+                    <span class="btn-text">Download PDF</span>
+                </button>
+                <div class="theme-dropdown">
+                    <button id="theme-dropdown-btn" class="theme-dropdown-btn" title="Select Theme">
+                        <span class="btn-text">Light Mode</span>
+                        <span class="dropdown-arrow">▼</span>
+                    </button>
+                    <div id="theme-dropdown-menu" class="theme-dropdown-menu">
+                        <div class="theme-option" data-theme="light">
+                            <span class="theme-icon"><i class="fas fa-sun"></i></span>
+                            <span class="theme-name">Light Mode</span>
+                            <span class="theme-description">Classic light</span>
+                        </div>
+                        <div class="theme-option" data-theme="dark">
+                            <span class="theme-icon"><i class="fas fa-moon"></i></span>
+                            <span class="theme-name">Dark Mode</span>
+                            <span class="theme-description">Classic dark</span>
+                        </div>
+                        <div class="theme-option" data-theme="sunset">
+                            <span class="theme-icon"><i class="fas fa-sunset"></i></span>
+                            <span class="theme-name">Sunset Ocean</span>
+                            <span class="theme-description">Warm orange</span>
+                        </div>
+                        <div class="theme-option" data-theme="forest">
+                            <span class="theme-icon"><i class="fas fa-tree"></i></span>
+                            <span class="theme-name">Forest Nature</span>
+                            <span class="theme-description">Green fresh</span>
+                        </div>
+                        <div class="theme-option" data-theme="galaxy">
+                            <span class="theme-icon"><i class="fas fa-stars"></i></span>
+                            <span class="theme-name">Purple Galaxy</span>
+                            <span class="theme-description">Cosmic purple</span>
+                        </div>
+                        <div class="theme-option" data-theme="minimalist">
+                            <span class="theme-icon"><i class="far fa-circle"></i></span>
+                            <span class="theme-name">Minimalist Gray</span>
+                            <span class="theme-description">Clean gray</span>
+                        </div>
+                        <div class="theme-option" data-theme="retro">
+                            <span class="theme-icon"><i class="fas fa-gamepad"></i></span>
+                            <span class="theme-name">Retro 80s</span>
+                            <span class="theme-description">Vintage vibes</span>
+                        </div>
+                        <div class="theme-option" data-theme="coffee">
+                            <span class="theme-icon"><i class="fas fa-coffee"></i></span>
+                            <span class="theme-name">Coffee Warm</span>
+                            <span class="theme-description">Cozy brown</span>
+                        </div>
+                        <div class="theme-option" data-theme="girly">
+                            <span class="theme-icon"><i class="fas fa-heart"></i></span>
+                            <span class="theme-name">Girly Pink</span>
+                            <span class="theme-description">Sweet pink</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Progress Dashboard Section -->
+        <section id="progress-dashboard-section" class="card-section">
+            <div class="section-header">
+                <h2><span class="section-icon"><i class="fas fa-chart-bar"></i></span> Progress Dashboard</h2>
+                <div class="dashboard-controls">
+                    <button id="refresh-dashboard" class="dashboard-refresh-btn" title="Refresh Dashboard">
+                        <span class="refresh-icon"><i class="fas fa-sync-alt"></i></span>
+                    </button>
+                    <button class="section-toggle collapsed" data-section="progress-dashboard">
+                        <span class="toggle-arrow">▶</span>
+                    </button>
+                </div>
+            </div>
+            <div class="section-content collapsed" id="progress-dashboard-content">
+                <!-- Dashboard Overview -->
+                <div class="dashboard-overview">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+                            <div class="stat-content">
+                                <div class="stat-number" id="completed-today">0</div>
+                                <div class="stat-label">Completed Today</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon"><i class="fas fa-clipboard-list"></i></div>
+                            <div class="stat-content">
+                                <div class="stat-number" id="total-today">0</div>
+                                <div class="stat-label">Total Today</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon"><i class="fas fa-bullseye"></i></div>
+                            <div class="stat-content">
+                                <div class="stat-number" id="completion-rate">0%</div>
+                                <div class="stat-label">Completion Rate</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon"><i class="fas fa-fire"></i></div>
+                            <div class="stat-content">
+                                <div class="stat-number" id="current-streak">0</div>
+                                <div class="stat-label">Day Streak</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Progress Charts -->
+                <div class="charts-section">
+                    <div class="chart-container">
+                        <h3><i class="fas fa-chart-line"></i> Weekly Progress</h3>
+                        <div class="weekly-chart" id="weekly-chart">
+                            <div class="chart-bars">
+                                <div class="chart-bar" data-day="Mon" data-value="0">
+                                    <div class="bar-fill"></div>
+                                    <div class="bar-label">Mon</div>
+                                </div>
+                                <div class="chart-bar" data-day="Tue" data-value="0">
+                                    <div class="bar-fill"></div>
+                                    <div class="bar-label">Tue</div>
+                                </div>
+                                <div class="chart-bar" data-day="Wed" data-value="0">
+                                    <div class="bar-fill"></div>
+                                    <div class="bar-label">Wed</div>
+                                </div>
+                                <div class="chart-bar" data-day="Thu" data-value="0">
+                                    <div class="bar-fill"></div>
+                                    <div class="bar-label">Thu</div>
+                                </div>
+                                <div class="chart-bar" data-day="Fri" data-value="0">
+                                    <div class="bar-fill"></div>
+                                    <div class="bar-label">Fri</div>
+                                </div>
+                                <div class="chart-bar" data-day="Sat" data-value="0">
+                                    <div class="bar-fill"></div>
+                                    <div class="bar-label">Sat</div>
+                                </div>
+                                <div class="chart-bar" data-day="Sun" data-value="0">
+                                    <div class="bar-fill"></div>
+                                    <div class="bar-label">Sun</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chart-container">
+                        <h3><i class="fas fa-tags"></i> Category Breakdown</h3>
+                        <div class="category-chart" id="category-chart">
+                            <div class="category-items">
+                                <!-- Category items will be populated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Achievements Section -->
+                <div class="achievements-section">
+                    <h3><i class="fas fa-trophy"></i> Recent Achievements</h3>
+                    <div class="achievements-grid" id="achievements-grid">
+                        <!-- Achievements will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Productivity Tips -->
+                <div class="productivity-tips">
+                    <h3><i class="fas fa-lightbulb"></i> Productivity Tips</h3>
+                    <div class="tips-container" id="productivity-tips">
+                        <!-- Tips will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    
+ <!-- Scripts in correct order -->
+    <script src="./scripts/theme.js"></script>
+    <script src="./scripts/collapsible-sections.js"></script>
+    <script src="./scripts/progress-dashboard.js"></script>
+    <script src="./scripts/drag-drop.js"></script>
+    <script src="./scripts/pdf-export.js"></script>
+    <script src="./scripts/ai-client.js"></script>
+    <script src="./scripts/app.js"></script>
+    <script src="./scripts/calendar2.js"></script>
+    <script src="./scripts/focus-mode.js"></script>
+    <script src="./scripts/quick-notes.js"></script>
+    <script src="./scripts/donate.js"></script>
+    
+    <!-- Mobile Bottom Navigation -->
+    <nav class="mobile-bottom-nav">
+        <ul class="mobile-nav-items">
+            <li>
+                <a href="#home" class="mobile-nav-item active">
+                    <i class="fas fa-home"></i>
+                    <span class="mobile-nav-text">Home</span>
+                </a>
+            </li>
+            <li>
+                <a href="#calendar-section" class="mobile-nav-item">
+                    <i class="far fa-calendar-alt"></i>
+                    <span class="mobile-nav-text">Calendar</span>
+                </a>
+            </li>
+            <li>
+                <a href="#progress-dashboard-section" class="mobile-nav-item">
+                    <i class="fas fa-chart-bar"></i>
+                    <span class="mobile-nav-text">Stats</span>
+                </a>
+            </li>
+            <li>
+                <a href="#tools-section" class="mobile-nav-item">
+                    <i class="fas fa-tools"></i>
+                    <span class="mobile-nav-text">Tools</span>
+                </a>
+            </li>
+            <li>
+                <a href="#donate-section" class="mobile-nav-item donate-nav">
+                    <i class="fas fa-heart"></i>
+                    <span class="mobile-nav-text">Donate</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <script>
+    // Drag-and-drop and file name display for file upload
+    const fileInput = document.getElementById('ai-project-file');
+    </script>
+    <script src="./scripts/file-to-task.js"></script>
+    <script src="./scripts/templates-dropdown.js"></script>
+        <script>
+    // (reopen script for following JS)
+    const dropzone = document.getElementById('file-upload-dropzone');
+    const fileNameDisplay = document.getElementById('selected-file-name');
+
+    if (fileInput && dropzone && fileNameDisplay) {
+        // Click on dropzone opens file picker
+        dropzone.addEventListener('click', (e) => {
+            if (e.target === dropzone || e.target.classList.contains('file-upload-text') || e.target.classList.contains('file-upload-icon')) {
+                fileInput.click();
+            }
+        });
+        // Show selected file name
+        fileInput.addEventListener('change', () => {
+            if (fileInput.files && fileInput.files.length > 0) {
+                fileNameDisplay.textContent = fileInput.files[0].name;
+            } else {
+                fileNameDisplay.textContent = 'Choose a file or drag it here';
+            }
+        });
+        // Drag and drop support
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropzone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                dropzone.classList.add('dragover');
+            });
+        });
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropzone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                dropzone.classList.remove('dragover');
+            });
+        });
+        dropzone.addEventListener('drop', (e) => {
+            if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+                fileInput.files = e.dataTransfer.files;
+                fileInput.dispatchEvent(new Event('change'));
+            }
+        });
+    }
+
+    // Show/hide Generate Tasks button based on section toggle (robust with MutationObserver)
+    const aiSectionContent = document.getElementById('ai-task-generator-content');
+    const aiGenerateBtn = document.getElementById('ai-generate-btn');
+
+    function updateAIGenerateBtnVisibility() {
+        if (aiSectionContent && aiGenerateBtn) {
+            if (!aiSectionContent.classList.contains('collapsed')) {
+                aiGenerateBtn.style.display = '';
+            } else {
+                aiGenerateBtn.style.display = 'none';
+            }
+        }
+    }
+    // Initial state
+    updateAIGenerateBtnVisibility();
+    // Observe class changes
+    if (aiSectionContent && aiGenerateBtn && window.MutationObserver) {
+        const observer = new MutationObserver(updateAIGenerateBtnVisibility);
+        observer.observe(aiSectionContent, { attributes: true, attributeFilter: ['class'] });
+    }
+    </script>
+</body>
+
+    <!-- Footer -->
+    <footer id="footer-contact" class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <div class="profile-section">
+                    <img src="https://i.ibb.co/LXLK3D5c/Whats-App-Image-2025-04-11-at-15-03-59-12f7a20f-removebg-preview.png" alt="Mohammed Reqasse" class="profile-image">
+                    <div class="profile-info">
+                        <h3>Mohammed Reqasse</h3>
+                        <p>Network and Telecommunications Engineering Student</p>
+                        <a href="https://moreqasse.github.io/CV/" target="_blank" rel="noopener" class="resume-link">View Resume</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Contact Information</h4>
+                <div class="contact-links">
+                    <a href="mailto:reqasse@gmail.com" class="contact-link">
+                        <img src="https://icones.pro/wp-content/uploads/2021/03/icone-gmail-logo-png-grise.png" alt="Email" class="contact-icon">
+                        <span>reqasse@gmail.com</span>
+                    </a>
+                    <a href="tel:+212700821340" class="contact-link">
+                        <span class="contact-icon">📞</span>
+                        <span>+212-700-82-13-40</span>
+                    </a>
+                    <a href="https://wa.me/212700821340" class="contact-link" target="_blank" rel="noopener">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" class="contact-icon">
+                        <span>WhatsApp</span>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Social Links</h4>
+                <div class="social-links">
+                    <a href="https://www.linkedin.com/in/mohammed-reqasse-860a03219/" class="social-link" target="_blank" rel="noopener">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVwpVlXEdO4SYUobUhd4C0DxLhsil1mNLpiw&s" alt="LinkedIn" class="social-icon">
+                        <span>LinkedIn</span>
+                    </a>
+                    <a href="https://github.com/MOREQASSE" class="social-link" target="_blank" rel="noopener">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt="GitHub" class="social-icon github-icon">
+                        <span>GitHub</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 TaskExtreme. Created by Mohammed Reqasse
+                All rights reserved.
+            </p>
+        </div>
+    </footer>
+</html>

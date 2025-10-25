@@ -1,17 +1,4 @@
-import { initDB, saveTask, getAllTasks, deleteTask, isOnline, showNotificationSafe } from './db.js';
-
-// Configuration
-const CONFIG = {
-    checkInterval: 5000, // Check connection every 5 seconds
-    serverCheckUrl: '/api/health', // Endpoint to check server availability
-    maxRetries: 3, // Number of retries before considering offline
-    retryDelay: 1000 // Delay between retries in ms
-};
-
-// State
-let connectionCheckInterval;
-let isServerAvailable = true;
-let retryCount = 0;
+import { initDB, saveTask, getAllTasks, deleteTask, isOnline } from './db.js';
 
 // Helper function to show notifications safely
 function showNotificationSafe(message, type = 'info') {
@@ -23,9 +10,10 @@ function showNotificationSafe(message, type = 'info') {
 }
 
 // Track pending operations when offline
+
+// Track pending operations when offline
 const pendingOperations = [];
 let isInitialized = false;
-let lastOnlineState = navigator.onLine;
 
 // Initialize offline functionality
 async function initOfflineSupport() {
@@ -55,17 +43,12 @@ async function initOfflineSupport() {
             }
         }
         
-        // Set up event listeners
+        // Listen for online/offline events
         window.addEventListener('online', handleConnectionChange);
         window.addEventListener('offline', handleConnectionChange);
         
-        // Initial status check and start periodic checking
-        checkServerAvailability()
-            .then(updateConnectionStatus)
-            .catch(() => updateConnectionStatus(false));
-            
-        // Start periodic checking
-        startPeriodicCheck();
+        // Initial status check
+        updateConnectionStatus();
         
     } catch (error) {
         console.error('Failed to initialize offline support:', error);
@@ -77,120 +60,37 @@ async function initOfflineSupport() {
     }
 }
 
-// Check server availability with retries
-async function checkServerAvailability() {
-    if (!navigator.onLine) {
-        return false;
-    }
-
-    try {
-        const response = await fetch(CONFIG.serverCheckUrl, {
-            method: 'HEAD',
-            cache: 'no-store',
-            headers: {
-                'Cache-Control': 'no-cache, no-store, must-revalidate',
-                'Pragma': 'no-cache',
-                'Expires': '0'
-            }
-        });
-        
-        isServerAvailable = response.ok;
-        if (isServerAvailable) retryCount = 0;
-        return isServerAvailable;
-    } catch (error) {
-        console.error('Server check failed:', error);
-        isServerAvailable = false;
-        return false;
-    }
-}
-
-// Start periodic connection checking
-function startPeriodicCheck() {
-    // Clear any existing interval
-    if (connectionCheckInterval) {
-        clearInterval(connectionCheckInterval);
-    }
+// Handle connection status changes
+function handleConnectionChange() {
+    updateConnectionStatus();
     
-    // Set up new interval
-    connectionCheckInterval = setInterval(async () => {
-        const wasOnline = navigator.onLine && isServerAvailable;
-        const isNowOnline = await checkServerAvailability();
-        
-        if (wasOnline !== isNowOnline) {
-            updateConnectionStatus(isNowOnline);
-            
-            if (isNowOnline) {
-                showNotificationSafe('Connection restored', 'success');
-                processPendingOperations();
-            } else if (navigator.onLine) {
-                // We're online but server is not responding
-                retryCount++;
-                if (retryCount >= CONFIG.maxRetries) {
-                    showNotificationSafe('Server not responding. Working in offline mode.', 'warning');
-                }
-            }
+    if (isOnline()) {
+        // Process any pending operations when coming back online
+        processPendingOperations();
+        if (typeof window.showNotification === 'function') {
+            window.showNotification('You are back online', 'success');
+        } else {
+            console.log('SUCCESS: You are back online');
         }
-    }, CONFIG.checkInterval);
+    } else {
+        if (typeof window.showNotification === 'function') {
+            window.showNotification('You are currently offline. Changes will be synced when you are back online.', 'warning');
+        } else {
+            console.log('WARNING: You are currently offline. Changes will be synced when you are back online.');
+        }
+    }
 }
 
 // Update UI based on connection status
-function updateConnectionStatus(forceState = null) {
+function updateConnectionStatus() {
     const statusElement = document.getElementById('connection-status');
-    if (!statusElement) return;
-    
-    const isActuallyOnline = forceState !== null ? forceState : (navigator.onLine && isServerAvailable);
-    const connectionText = statusElement.querySelector('.connection-text') || 
-                         document.createElement('span');
-    
-    if (isActuallyOnline) {
-        // Update to online state
-        statusElement.className = 'connection-status online';
-        connectionText.textContent = 'Online';
-        connectionText.className = 'connection-text';
-        
-        if (statusElement.querySelector('i.fas')) {
-            statusElement.querySelector('i.fas').className = 'fas fa-wifi';
-        }
-        
-        if (!statusElement.contains(connectionText)) {
-            statusElement.appendChild(connectionText);
-        }
-        
-        // Update last online state
-        if (lastOnlineState !== isActuallyOnline) {
-            lastOnlineState = true;
-            showNotificationSafe('You are back online', 'success');
-        }
-    } else {
-        // Update to offline state
-        statusElement.className = 'connection-status offline';
-        
-        if (navigator.onLine && !isServerAvailable) {
-            connectionText.textContent = 'Server Unavailable';
-            if (retryCount < CONFIG.maxRetries) {
-                connectionText.textContent += ` (Retrying ${retryCount + 1}/${CONFIG.maxRetries})`;
-            }
+    if (statusElement) {
+        if (isOnline()) {
+            statusElement.innerHTML = '<i class="fas fa-wifi"></i> Online';
+            statusElement.className = 'online';
         } else {
-            connectionText.textContent = 'Offline';
-        }
-        
-        connectionText.className = 'connection-text';
-        
-        if (statusElement.querySelector('i.fas')) {
-            statusElement.querySelector('i.fas').className = 'fas fa-wifi-slash';
-        }
-        
-        if (!statusElement.contains(connectionText)) {
-            statusElement.appendChild(connectionText);
-        }
-        
-        // Update last online state
-        if (lastOnlineState !== false) {
-            lastOnlineState = false;
-            showNotificationSafe(
-                'You are currently offline. Changes will be synced when you are back online.', 
-                'warning'
-            );
+            statusElement.innerHTML = '<i class="fas fa-wifi-slash"></i> Offline';
+            statusElement.className = 'offline';
         }
     }
 }
@@ -288,13 +188,6 @@ async function processPendingOperations() {
         showNotificationSafe('All changes have been synced', 'success');
     }
 }
-
-// Clean up when the page is unloaded
-window.addEventListener('beforeunload', () => {
-    if (connectionCheckInterval) {
-        clearInterval(connectionCheckInterval);
-    }
-});
 
 // In a real app, this would sync with your backend server
 /*

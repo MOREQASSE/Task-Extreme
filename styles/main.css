@@ -416,7 +416,8 @@ body {
   border-bottom: 1px solid var(--border);
   position: sticky;
   top: 0;
-  z-index: 100;
+  z-index: 1100; /* Increased z-index to be above .navbar */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .topnav a {
@@ -544,7 +545,7 @@ section[id] {
   padding: var(--spacing-md) 0;
   box-shadow: var(--shadow);
   position: sticky;
-  top: 0;
+  top: 46px; /* Height of .topnav + border */
   z-index: 1000;
   transition: var(--transition-normal);
 }

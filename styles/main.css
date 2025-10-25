@@ -1894,26 +1894,52 @@ footer {
   }
   
   .action-btn {
-    padding: 0.35rem 0.5rem;
+    padding: 0.25rem;
+    min-width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-size: 0.8rem;
   }
   
-  /* Hide PDF button text on mobile, show only icon */
-  .pdf-btn .btn-text {
+  .action-btn .btn-text {
     display: none;
   }
   
-  .pdf-btn .btn-icon {
+  .action-btn .btn-icon {
     margin: 0;
+    font-size: 1.1em;
   }
   
-  /* Adjust templates button */
-  .templates-btn .btn-text {
+  /* Make action buttons more compact on mobile */
+  .action-btn {
+    padding: 0.25rem;
+    min-width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Hide button text on mobile, show only icon */
+  .action-btn .btn-text {
     display: none;
   }
   
-  .templates-btn .btn-icon {
+  .action-btn .btn-icon {
     margin: 0;
+    font-size: 1.1em;
+  }
+  
+  /* Specific adjustments for PDF button */
+  .pdf-btn {
+    padding: 0.25rem;
+  }
+  
+  /* Specific adjustments for Templates button */
+  .templates-btn {
+    padding: 0.25rem;
   }
   
   .main-content {

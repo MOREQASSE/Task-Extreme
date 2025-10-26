@@ -10,7 +10,48 @@ document.addEventListener('DOMContentLoaded', () => {
             .filter(task => !task.classList.contains('empty-state') && task.style.display !== 'none');
         
         if (currentTasks.length === 0) {
-            showFormFeedback('No tasks available for focus mode! Add some tasks first.', 'error');
+            // Show a more descriptive and helpful message
+            const feedbackMessage = document.createElement('div');
+            feedbackMessage.className = 'form-feedback error';
+            feedbackMessage.style.maxWidth = '90%';
+            feedbackMessage.style.margin = '1rem auto';
+            feedbackMessage.style.padding = '1rem';
+            feedbackMessage.style.borderRadius = '8px';
+            feedbackMessage.style.backgroundColor = '#ffebee';
+            feedbackMessage.style.color = '#c62828';
+            feedbackMessage.style.textAlign = 'center';
+            feedbackMessage.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)';
+            feedbackMessage.innerHTML = `
+                <i class="fas fa-tasks" style="font-size: 1.5rem; margin-bottom: 0.5rem; display: block;"></i>
+                <h3 style="margin: 0 0 0.5rem 0; font-size: 1.1rem;">No Tasks Found</h3>
+                <p style="margin: 0; font-size: 0.9rem; line-height: 1.4;">
+                    You need to add tasks before starting Focus Mode.
+                </p>
+            `;
+            
+            // Remove any existing feedback
+            const existingFeedback = document.querySelector('.form-feedback.error');
+            if (existingFeedback) {
+                existingFeedback.remove();
+            }
+            
+            // Insert feedback before the tasks list or at the top of the page
+            const tasksSection = document.getElementById('tasks-section');
+            if (tasksSection) {
+                tasksSection.insertBefore(feedbackMessage, tasksSection.firstChild);
+            } else {
+                document.body.insertBefore(feedbackMessage, document.body.firstChild);
+            }
+            
+            // Auto-remove after 5 seconds
+            setTimeout(() => {
+                feedbackMessage.style.opacity = '0';
+                feedbackMessage.style.transition = 'opacity 0.3s ease';
+                setTimeout(() => feedbackMessage.remove(), 300);
+            }, 5000);
+            
+            // Scroll to the feedback if needed
+            feedbackMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
             return;
         }
 

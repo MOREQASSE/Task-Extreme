@@ -545,9 +545,16 @@ section[id] {
   padding: var(--spacing-md) 0;
   box-shadow: var(--shadow);
   position: sticky;
-  top: 1px; /* Height of .topnav + border */
+  top: 1px;
   z-index: 1000;
   transition: var(--transition-normal);
+}
+
+/* Desktop styles */
+@media (min-width: 768px) {
+  .navbar {
+    top: 40px; /* Height of .topnav + border */
+  }
 }
 
 /* Light mode specific navbar background */

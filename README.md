@@ -1,112 +1,105 @@
-# TaskExtreme - AI-Powered Task Management
+# TaskExtreme - Modern Task Management
 
-A modern, AI-enhanced task management application with intelligent task generation.
+A feature-rich, client-side task management application with offline support and focus mode.
 
-## Features}
+## Features
+
+- 📅 **Date-based Task Management**: Organize tasks by date with a clean calendar interface
+- 📱 **Mobile-First Design**: Fully responsive interface that works on all devices
+- 🎨 **Multiple Themes**: 9 beautiful themes with dark/light mode support
+- ⏱️ **Focus Mode**: Built-in Pomodoro timer with ambient sound options
+- 📊 **Task Categories**: Organize tasks with color-coded categories
+- 🔄 **Offline Support**: Works without an internet connection
+- 📄 **PDF Export**: Export your tasks and schedules to PDF
+- 🎵 **Ambient Sounds**: Built-in background sounds for better focus
+
+## Getting Started
+
+### Quick Start
+1. Clone or download the repository
+2. Open `index.html` in any modern web browser
+3. Start managing your tasks!
+
+### Local Development Server
+For a better development experience, you can use a local server:
+
+```bash
+# Using Python (built-in server)
 python -m http.server 8000
+# Then open http://localhost:8000 in your browser
 
-- 📅 **Date-based Task Management**: Each calendar date has unique tasks
-- 🤖 **AI Task Generation**: Generate tasks from project descriptions, PDFs, or Google Sheets
-- 📱 **Mobile-First Design**: Fully responsive interface
-- 🎨 **Dark/Light Theme**: Toggle between themes
-- 📊 **Calendar View**: Visual task overview with clickable dates
-- 📄 **PDF Export**: Export your tasks to PDF
-- ⏱️ **Focus Mode**: Pomodoro technique integration
-- 🔄 **Task Repeating**: Daily, custom day, or one-time tasks
+# Or using Node.js with http-server
+npx http-server
+# Then open http://localhost:8080 in your browser
+```
 
-## Setup
+## Key Features
 
-### Frontend (Web App)
-1. Open `index.html` in your browser
-2. Or run a local server: `python -m http.server 8000`
-3. Access at `http://localhost:8000`
+### Task Management
+- Add, edit, and delete tasks with ease
+- Set due dates and priorities
+- Organize tasks into categories
+- Mark tasks as complete
 
-### AI Backend (Optional)
-To enable AI task generation:
+### Focus Mode
+- Built-in Pomodoro timer (25/5 by default)
+- Customizable work/break durations
+- Ambient sound options for better concentration
+- Session tracking and statistics
 
-1. **Install Node.js dependencies:**
-   ```bash
-   npm install
-   ```
+### Calendar & Navigation
+- Monthly and weekly calendar views
+- Quick navigation between dates
+- Visual task indicators on the calendar
+- "Today" button for quick access
 
-2. **Set up environment variables:**
-   Create a `.env` file in the root directory:
-   ```
-   PORT=3001
-   ```
-
-3. **Start the AI backend:**
-
-4. **Start the AI backend:**
-   ```bash
-   npm start
-   ```
-   Or for development with auto-restart:
-   ```bash
-   npm run dev
-   ```
-
-5. **Access the AI backend at:** `http://localhost:3001`
-
-## Usage
-
-### Basic Task Management
-- Add tasks manually using the form
-- Set time blocks, due dates, and repeat patterns
-- Navigate between days using arrows or calendar
-- Check off completed tasks
-
-### AI Task Generation
-1. Go to the "AI Task Generator" section
-2. Enter a project description, upload a PDF, or provide a Google Sheet URL
-3. Click "Generate Tasks"
-4. AI will create relevant tasks with time blocks and scheduling
-
-### Calendar Navigation
-- Click any date in the calendar to navigate to that day
-- Use the "Today" button to return to current date
-- Week navigation arrows move day by day
-
-## File Structure
+## Project Structure
 
 ```
 TaskExtreme/
-├── index.html              # Main application
+├── index.html            # Main application entry point
+├── offline.html          # Offline fallback page
+├── manifest.json         # Web app manifest for PWA
+├── sw.js                # Service worker for offline support
 ├── styles/
-│   └── main.css           # Styling
+│   └── main.css         # Main stylesheet
 ├── scripts/
-│   ├── app.js             # Main application logic
-│   ├── calendar2.js       # Calendar functionality
-│   ├── ai-task-generator.js # AI backend (Node.js)
-│   ├── drag-drop.js       # Drag and drop features
-│   ├── pdf-export.js      # PDF generation
-│   ├── focus-mode.js      # Pomodoro timer
-│   └── theme.js           # Theme switching
-├── package.json           # Node.js dependencies
-└── README.md             # This file
+│   ├── app.js           # Core application logic
+│   ├── calendar2.js     # Calendar functionality
+│   ├── focus-mode.js    # Pomodoro timer and focus mode
+│   ├── offline.js       # Offline functionality
+│   ├── scroll-spy.js    # Scroll behavior enhancements
+│   └── db.js           # IndexedDB operations
+├── audio/               # Ambient sound files
+│   ├── Blossoming Love.mp3
+│   ├── Calm piano.mp3
+│   ├── Heavy rain.mp3
+│   └── Jazz soft.mp3
+└── images/              # Application images and icons
 ```
 
 ## Technologies Used
 
-- **Frontend**: HTML5, CSS3, Vanilla JavaScript
-- **AI Backend**: Node.js, Express, Azure AI Inference API
-- **PDF Processing**: PDF.js
-- **Styling**: Custom CSS with responsive design
+- **Frontend**: Vanilla JavaScript, HTML5, CSS3
+- **Storage**: IndexedDB for offline data persistence
+- **Responsive Design**: Mobile-first CSS with media queries
+- **Progressive Web App**: Service Worker for offline functionality
 
-## Development
+## Browser Support
 
-### Adding New Features
-1. Create your feature branch
-2. Make changes in the appropriate script files
-3. Test thoroughly across different devices
-4. Update this README if needed
+TaskExtreme works best in modern browsers that support:
+- ES6+ JavaScript
+- CSS Grid and Flexbox
+- IndexedDB
+- Service Workers
 
-### AI Backend Customization
-The AI backend uses Azure's inference API with GPT-4. You can:
-- Modify the system prompt in `ai-task-generator.js`
-- Add new input types (images, documents)
-- Customize task generation rules
-- Integrate with other AI providers
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
 ## License
 
@@ -116,4 +109,4 @@ MIT License - feel free to use and modify as needed.
 
 Created by MoReqasse
 - Email: reqasse@gmail.com
-- Phone: +212-700-82-13-40 
+- Phone: +212-700-82-13-40

@@ -2195,801 +2195,16 @@ footer {
   
   .day-nav li {
     min-width: 50px;
-    padding: var(--spacing-xs);
     font-size: 0.8rem;
-  }
-  
-  .calendar-days div {
-    font-size: 0.8rem;
-    padding: var(--spacing-xs);
-  }
-  
-  .day {
-    padding: var(--spacing-xs);
-  }
-  
-  .day-number {
-    font-size: 1rem;
-  }
-  
-  .task-status {
-    font-size: 0.6rem;
-  }
-  
-  footer {
-    padding: var(--spacing-lg) 0 var(--spacing-md);
-  }
-  
-  .footer-content {
-    padding: 0 var(--spacing-sm);
-  }
-  
-  .profile-image {
-    width: 80px;
-    height: 80px;
-  }
-  
-  .profile-info h3 {
-    font-size: 1.1rem;
-  }
-  
-  .profile-info p {
-    font-size: 0.8rem;
-  }
-  
-  /* Theme dropdown responsive */
-  .theme-dropdown-btn {
-    min-width: 100px;
-    padding: var(--spacing-xs) var(--spacing-sm);
-  }
-  
-  .theme-dropdown-btn .btn-text {
-    font-size: 0.8rem;
-  }
-  
-  .theme-dropdown-menu {
-    min-width: 160px;
-    right: -10px;
-  }
-}
-
-@media (max-width: 375px) {
-  .navbar {
-    padding: 0.4rem 0.5rem;
-  }
-  
-  .navbar-content {
-    gap: 0.4rem;
-  }
-  
-  .navbar-left .logo-icon {
-    height: 2.2em !important;
-  }
-  
-  .navbar-center {
-    gap: 0.25rem;
-  }
-  
-  .week-nav-btn {
-    width: 24px;
-    height: 24px;
-    font-size: 0.8rem;
-  }
-  
-  .today-btn {
-    padding: 0.2rem 0.4rem;
-    font-size: 0.75rem;
-  }
-  
-  .date-display {
-    min-width: 70px;
-    font-size: 0.75rem;
-    padding: 0 0.2rem;
-  }
-  
-  .action-btn {
-    padding: 0.25rem 0.4rem;
-    font-size: 0.75rem;
-  }
-  
-  .days-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  
-  /* Calendar responsive sizing for small mobile */
-  #calendar-section.card-section {
-    padding: var(--spacing-sm);
-    margin: 0 auto var(--spacing-lg);
-  }
-  
-  .calendar-header h3 {
-    font-size: 1.1rem;
-    margin-bottom: var(--spacing-md);
-  }
-  
-  .calendar-days div {
-    font-size: 0.7rem;
-    padding: var(--spacing-xs);
-  }
-  
-  .day {
-    padding: var(--spacing-xs);
-    min-height: 35px;
-  }
-  
-  .day-number {
-    font-size: 0.9rem;
-  }
-  
-  .task-status {
-    font-size: 0.5rem;
-  }
-  
-  /* Theme dropdown responsive */
-  .theme-dropdown-btn {
-    min-width: 90px;
-    padding: var(--spacing-xs);
-  }
-  
-  .theme-dropdown-btn .btn-text {
-    font-size: 0.75rem;
-  }
-  
-  .theme-dropdown-menu {
-    min-width: 150px;
-    right: -15px;
-  }
-}
-
-@media (max-width: 768px) and (min-width: 481px) {
-  /* Small tablet optimizations */
-  .navbar {
-    padding: 0.5rem 0.8rem;
-    min-height: 52px;
-  }
-  
-  .navbar-content {
-    gap: 0.5rem;
-  }
-  
-  .date-display {
-    min-width: 70px;
-    font-size: 0.9em;
-    padding: 0 0.2rem;
-  }
-  
-  .today-btn {
-    padding: 0.25rem 0.5rem;
-    font-size: 0.85em;
-  }
-  
-  .week-nav-btn {
-    width: 30px;
-    height: 30px;
-  }
-  
-  .navbar-content {
-    gap: 0.6rem;
-  }
-  
-  .navbar-left .logo-icon {
-    height: 2.6em !important;
-  }
-  
-  /* More compact action buttons */
-  .action-btn {
-    padding: 0.35rem 0.6rem;
-    font-size: 0.8rem;
-  }
-  
-  /* Hide text in buttons on smaller tablets */
-  .pdf-btn .btn-text,
-  .templates-btn .btn-text {
-    display: none;
-  }
-  
-  .pdf-btn .btn-icon,
-  .templates-btn .btn-icon {
-    margin: 0;
-  }
-  
-  /* Adjust navigation */
-  .week-nav-btn {
-    width: 30px;
-    height: 30px;
-    font-size: 0.9rem;
-  }
-  
-  .today-btn {
-    padding: 0.25rem 0.5rem;
-    font-size: 0.85rem;
-  }
-  
-  .date-display {
-    min-width: 85px;
-    font-size: 0.85rem;
-    padding: 0 0.3rem;
-  }
-  
-  /* Adjust theme dropdown */
-  .theme-dropdown-menu {
-    min-width: 180px;
-  }
-  
-  .theme-option {
-    padding: 0.5rem 0.75rem;
-  }
-  
-  .theme-name {
-    font-size: 0.9rem;
-  }
-  
-  .theme-description {
-    font-size: 0.75rem;
-  }
-}
-
-@media (max-width: 320px) {
-  .navbar-content {
-    gap: var(--spacing-xs);
-  }
-  
-  .navbar-center {
-    gap: var(--spacing-xs);
-  }
-  
-  .week-nav-btn {
-    width: 24px;
-    height: 24px;
-    font-size: 0.8rem;
-  }
-  
-  .today-btn {
-    padding: var(--spacing-xs);
-    font-size: 0.7rem;
-  }
-  
-  .date-display {
-    min-width: 70px;
-    font-size: 0.7rem;
-    padding: var(--spacing-xs);
-  }
-  
-  .action-btn {
-    padding: var(--spacing-xs);
-    font-size: 0.7rem;
-  }
-  
-  .days-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  
-  .day-nav li {
-    min-width: 40px;
-    font-size: 0.7rem;
   }
   
   /* Calendar responsive sizing for very small mobile */
   #calendar-section.card-section {
-    padding: var(--spacing-xs);
-    margin: 0 auto var(--spacing-md);
-    width: 100vw;
-    max-width: 100vw;
-    margin-left: calc(-1 * var(--spacing-sm));
-    margin-right: calc(-1 * var(--spacing-sm));
-  }
-  
-  .calendar-header h3 {
-    font-size: 1rem;
-    margin-bottom: var(--spacing-sm);
-  }
-  
-  .calendar-days div {
-    font-size: 0.6rem;
-    padding: var(--spacing-xs);
-  }
-  
-  .day {
-    padding: var(--spacing-xs);
-    min-height: 30px;
-  }
-  
-  .day-number {
-    font-size: 0.8rem;
-  }
-  
-  .task-status {
-    font-size: 0.4rem;
-  }
-  
-  /* Theme dropdown responsive */
-  .theme-dropdown-btn {
-    min-width: 80px;
-    padding: var(--spacing-xs);
-  }
-  
-  .theme-dropdown-btn .btn-text {
-    font-size: 0.7rem;
-  }
-  
-  .theme-dropdown-menu {
-    min-width: 140px;
-    right: -20px;
-  }
-}
-
-/* ===== UTILITY CLASSES ===== */
-.hidden {
-  display: none !important;
-}
-
-.visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-
-/* ===== ANIMATIONS ===== */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.fade-in {
-  animation: fadeIn 0.3s ease-out;
-}
-
-@keyframes slideIn {
-  from {
-    transform: translateX(-20px);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-.slide-in {
-  animation: slideIn 0.3s ease-out;
-}
-
-/* ===== FOCUS MODE OVERLAY ===== */
-#focus-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.85));
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-  backdrop-filter: blur(10px);
-  animation: fadeIn 0.3s ease;
-}
-
-.focus-container {
-  background: var(--background);
-  padding: var(--spacing-xl);
-  border-radius: var(--radius-xl);
-  text-align: center;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-  max-width: 500px;
-  width: calc(100% - 2rem);
-  max-height: calc(100vh - 2rem);
-  overflow-y: auto;
-  position: relative;
-  border: 1px solid var(--border);
-  animation: slideIn 0.3s ease;
-  margin: 1rem;
-}
-
-.focus-exit {
-  position: absolute;
-  top: var(--spacing-md);
-  right: var(--spacing-md);
-  background: var(--secondary);
-  border: none;
-  color: var(--foreground);
-  font-size: 1.5rem;
-  cursor: pointer;
-  padding: var(--spacing-sm);
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all var(--transition-fast);
-  box-shadow: var(--shadow);
-}
-
-.focus-exit:hover {
-  background: var(--accent);
-  color: white;
-  transform: scale(1.1);
-}
-
-/* Focus Header */
-.focus-header {
-  margin-bottom: var(--spacing-xl);
-}
-
-.focus-header h2 {
-  color: var(--accent);
-  font-size: 2rem;
-  font-weight: 700;
-  margin-bottom: var(--spacing-xs);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.focus-subtitle {
-  color: var(--foreground);
-  font-size: 1rem;
-  opacity: 0.8;
-  font-weight: 500;
-}
-
-/* Focus Task */
-.focus-task {
-  background: var(--secondary);
-  padding: var(--spacing-lg);
-  border-radius: var(--radius-lg);
-  margin-bottom: var(--spacing-xl);
-  border-left: 4px solid var(--accent);
-}
-
-.focus-task h3 {
-  color: var(--foreground);
-  font-size: 1.3rem;
-  font-weight: 600;
-  margin-bottom: var(--spacing-sm);
-}
-
-.focus-task p {
-  color: var(--foreground);
-  opacity: 0.8;
-  font-size: 0.95rem;
-  line-height: 1.5;
-}
-
-/* Timer Display */
-.focus-timer {
-  margin-bottom: var(--spacing-xl);
-}
-
-.timer-display {
-  margin-bottom: var(--spacing-lg);
-}
-
-#focus-time {
-  font-size: 4.5rem;
-  font-weight: 900;
-  color: var(--accent);
-  font-family: 'Courier New', monospace;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-  display: block;
-  margin: var(--spacing-md) 0;
-}
-
-/* Timer Controls */
-.focus-controls {
-  display: flex;
-  gap: var(--spacing-md);
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.timer-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-xs);
-  padding: var(--spacing-md) var(--spacing-lg);
-  border: none;
-  border-radius: var(--radius-md);
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all var(--transition-fast);
-  box-shadow: var(--shadow);
-  min-width: 120px;
-  justify-content: center;
-}
-
-.start-btn {
-  background: #28a745;
-  color: white;
-}
-
-.start-btn:hover {
-  background: #218838;
-  transform: translateY(-2px);
-  box-shadow: var(--hover-shadow);
-}
-
-.pause-btn {
-  background: #ffc107;
-  color: var(--foreground);
-}
-
-.pause-btn:hover {
-  background: #e0a800;
-  transform: translateY(-2px);
-  box-shadow: var(--hover-shadow);
-}
-
-.reset-btn {
-  background: var(--secondary);
-  color: var(--foreground);
-  border: 2px solid var(--border);
-}
-
-.reset-btn:hover {
-  background: var(--accent);
-  color: white;
-  transform: translateY(-2px);
-  box-shadow: var(--hover-shadow);
-}
-
-/* Task Progress */
-.task-progress {
-  margin-bottom: var(--spacing-lg);
-}
-
-.progress-info {
-  margin-bottom: var(--spacing-md);
-}
-
-.progress-info span {
-  color: var(--foreground);
-  font-size: 0.9rem;
-  font-weight: 500;
-  opacity: 0.8;
-}
-
-.task-actions {
-  display: flex;
-  gap: var(--spacing-md);
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.action-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-xs);
-  padding: var(--spacing-sm) var(--spacing-lg);
-  border: none;
-  border-radius: var(--radius-md);
-  font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all var(--transition-fast);
-  box-shadow: var(--shadow);
-  min-width: 140px;
-  justify-content: center;
-}
-
-.complete-btn {
-  background: #28a745;
-  color: white;
-}
-
-.complete-btn:hover {
-  background: #218838;
-  transform: translateY(-2px);
-  box-shadow: var(--hover-shadow);
-}
-
-.next-btn {
-  background: var(--accent);
-  color: white;
-}
-
-.next-btn:hover {
-  background: #1760c4;
-  transform: translateY(-2px);
-  box-shadow: var(--hover-shadow);
-}
-
-/* Focus Tips */
-.focus-tips {
-  background: var(--secondary);
-  padding: var(--spacing-md);
-  border-radius: var(--radius-md);
-  border-left: 4px solid #17a2b8;
-}
-
-.focus-tips p {
-  color: var(--foreground);
-  font-size: 0.9rem;
-  margin: 0;
-  opacity: 0.9;
-  line-height: 1.4;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .focus-container {
-    padding: var(--spacing-lg);
-    margin: var(--spacing-sm);
-    width: calc(100% - 1rem);
-    max-height: calc(100vh - 1rem);
-  }
-  
-  #focus-time {
-    font-size: 3.5rem;
-  }
-  
-  .focus-controls {
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .timer-btn {
-    width: 100%;
-    max-width: 200px;
-  }
-  
-  .task-actions {
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .action-btn {
-    width: 100%;
-    max-width: 200px;
-  }
-  
-  .focus-header h2 {
-    font-size: 1.5rem;
-  }
-  
-  .focus-task h3 {
-    font-size: 1.1rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .focus-container {
-    padding: var(--spacing-md);
-    margin: var(--spacing-xs);
-    width: calc(100% - 0.5rem);
-    max-height: calc(100vh - 0.5rem);
-  }
-  
-  #focus-time {
-    font-size: 3rem;
-  }
-  
-  .focus-header h2 {
-    font-size: 1.3rem;
-  }
-  
-  .focus-task {
-    padding: var(--spacing-md);
-  }
-  
-  .focus-controls {
-    gap: var(--spacing-sm);
-  }
-  
-  .task-actions {
-    gap: var(--spacing-sm);
-  }
-}
-
-@media (max-width: 375px) {
-  .focus-container {
-    padding: var(--spacing-sm);
-    margin: 0.25rem;
-    width: calc(100% - 0.5rem);
-    max-height: calc(100vh - 0.5rem);
-  }
-  
-  #focus-time {
-    font-size: 2.5rem;
-  }
-  
-  .focus-header h2 {
-    font-size: 1.2rem;
-  }
-  
-  .focus-subtitle {
-    font-size: 0.9rem;
-  }
-  
-  .focus-task h3 {
-    font-size: 1rem;
-  }
-  
-  .focus-task p {
-    font-size: 0.85rem;
-  }
-  
-  .timer-btn {
-    padding: var(--spacing-sm) var(--spacing-md);
-    font-size: 0.9rem;
-    min-width: 100px;
-  }
-  
-  .action-btn {
-    padding: var(--spacing-sm) var(--spacing-md);
-    font-size: 0.85rem;
-    min-width: 120px;
-  }
-}
-
-/* ===== PRINT STYLES ===== */
-@media print {
-  .navbar,
-  .topnav,
-  .week-nav-section,
-  #task-form-section,
-  #ai-task-generator-section,
-  #tools-section,
-  footer {
-    display: none !important;
-  }
-  
-  .main-content {
-    padding: 0;
-  }
-  
-  .card-section {
-    box-shadow: none;
-    border: 1px solid #ccc;
-    margin-bottom: var(--spacing-md);
-  }
-}
-
-/* Calendar responsive sizing for mobile */
-#calendar-section.card-section {
-  width: 100%;
-  max-width: 100%;
-  margin: 0 auto var(--spacing-xl);
-  padding: 0.5rem;
-  box-sizing: border-box;
-}
-
-.calendar-grid {
-  width: 100%;
-  max-width: 100%;
-  box-sizing: border-box;
-}
-
-.calendar-days {
-  width: 100%;
-  max-width: 100%;
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 0.15rem;
-  margin-bottom: 0.25rem;
-}
-
-/* Mobile-specific calendar styles */
-@media (max-width: 767px) {
-  #calendar-section.card-section {
     padding: 0.5rem 0.25rem;
     margin: 0.5rem 0 1rem;
     width: 100vw;
-    margin-left: -0.5rem;
-    border-radius: 0;
+    margin-left: calc(-1 * var(--spacing-sm));
+    margin-right: calc(-1 * var(--spacing-sm));
   }
   
   .calendar-header h3 {
@@ -4884,7 +4099,115 @@ footer {
 }
 
 /* Responsive Design for Enhanced Focus Mode */
+/* Chart container styles to maintain consistent appearance */
+.chart-container {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 10px;
+}
+
+/* Prevent chart from being too small on mobile */
+.weekly-chart {
+  min-width: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 0 10px;
+  box-sizing: border-box;
+}
+
+/* Ensure bars maintain consistent width and spacing */
+.chart-bar {
+  flex: 1;
+  min-width: 30px;
+  max-width: 50px;
+  margin: 0 2px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+/* Maintain bar fill height and appearance */
+.bar-fill {
+  width: 100%;
+  min-height: 8px;
+  background: var(--accent);
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  min-height: 8px;
+  height: 8px;
+  transition: height 0.3s ease;
+  position: relative;
+}
+
+/* Ensure bar labels remain readable */
+.bar-label {
+  font-size: 12px;
+  margin-top: 5px;
+  text-align: center;
+  white-space: nowrap;
+  transform-origin: center;
+  transform: rotate(-45deg);
+  position: absolute;
+  bottom: -25px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-45deg);
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+/* Ensure the chart is scrollable on small screens but maintains appearance */
+/* Time input layout */
+.time-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: flex-end;
+}
+
+.time-group {
+  flex: 1;
+  min-width: 120px;
+}
+
+.time-separator {
+  display: flex;
+  align-items: center;
+  padding-bottom: 5px;
+  font-size: 0.9em;
+  color: var(--text-muted);
+}
+
+/* Ensure time inputs are properly sized */
+input[type="time"] {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--input-bg);
+  color: var(--text);
+  font-size: 0.95em;
+}
+
+/* Adjust layout for mobile */
 @media (max-width: 768px) {
+  .time-row {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: flex-end;
+  }
+  
+  .time-group {
+    flex: 1;
+    min-width: 0; /* Allow flex items to shrink below min-content */
+  }
+  
+  .time-separator {
+    padding: 0 5px 5px;
+  }
+  
   .focus-container {
     padding: var(--spacing-lg);
     width: 95%;

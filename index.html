@@ -420,10 +420,10 @@
                             <div class="priority-group">
                                 <label for="task-priority">Priority</label>
                                 <select id="task-priority" required>
-                                    <option value="">Select priority</option>
-                                    <option value="high" data-color="#ef4444">🔴 High</option>
-                                    <option value="medium" data-color="#f59e0b">🟡 Medium</option>
-                                    <option value="low" data-color="#10b981">🟢 Low</option>
+                                    <option value="" data-icon="fa-flag">Select priority</option>
+                                    <option value="high" data-color="#ef4444" data-icon="fa-flag" data-icon-color="red">High</option>
+                                    <option value="medium" data-color="#f59e0b" data-icon="fa-flag" data-icon-color="#f59e0b">Medium</option>
+                                    <option value="low" data-color="#10b981" data-icon="fa-flag" data-icon-color="#10b981">Low</option>
                                 </select>
                             </div>
                         </div>
@@ -1147,7 +1147,8 @@
             const option = select.options[i];
             const item = document.createElement('div');
             item.className = 'select-item';
-            item.innerHTML = `<i class="fas ${option.dataset.icon || ''}"></i> <span>${option.text}</span>`;
+            const iconColor = option.dataset.iconColor ? ` style="color: ${option.dataset.iconColor}"` : '';
+            item.innerHTML = `<i class="fas ${option.dataset.icon || ''}"${iconColor}></i> <span>${option.text}</span>`;
             item.dataset.value = option.value;
             
             // Set click handler for each item
@@ -1157,10 +1158,11 @@
                 
                 // Update the selected display
                 const icon = this.querySelector('i').className;
+                const iconColor = this.querySelector('i').style.color ? ` style="color: ${this.querySelector('i').style.color}"` : '';
                 const text = this.querySelector('span').textContent;
                 selected.innerHTML = `
                     <div class="select-selected-content">
-                        <i class="${icon}"></i>
+                        <i class="${icon}"${iconColor}></i>
                         <span>${text}</span>
                     </div>
                     <span class="select-arrow">▼</span>
@@ -1199,9 +1201,10 @@
         // Update the custom select when the original select changes
         select.addEventListener('change', function() {
             const selectedOption = this.options[this.selectedIndex];
+            const iconColor = selectedOption.dataset.iconColor ? ` style="color: ${selectedOption.dataset.iconColor}"` : '';
             selected.innerHTML = `
                 <div class="select-selected-content">
-                    <i class="fas ${selectedOption.dataset.icon || ''}"></i>
+                    <i class="fas ${selectedOption.dataset.icon || ''}"${iconColor}></i>
                     <span>${selectedOption.text}</span>
                 </div>
                 <span class="select-arrow">▼</span>
@@ -1402,8 +1405,9 @@
     
     // Initialize event listeners when DOM is loaded
     document.addEventListener('DOMContentLoaded', function() {
-        // Initialize enhanced select
+        // Initialize enhanced selects
         enhanceSelectWithIcons('task-category');
+        enhanceSelectWithIcons('task-priority');
         
         // Export button click handler
         const exportBtn = document.getElementById('export-tasks-btn');

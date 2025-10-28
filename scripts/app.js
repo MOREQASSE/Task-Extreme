@@ -970,14 +970,26 @@ function setupEventListeners() {
   // Task actions (delegated)
   if (tasksList) {
     tasksList.addEventListener('click', (e) => {
-      const taskId = e.target.dataset.taskId;
-      if (!taskId) return;
+      // Find the closest parent element with a task ID
+      const taskElement = e.target.closest('[data-task-id]');
+      if (!taskElement) return;
       
-      if (e.target.classList.contains('task-checkbox')) {
+      const taskId = taskElement.dataset.taskId;
+      
+      // Handle checkbox click
+      if (e.target.classList.contains('task-checkbox') || e.target.closest('.task-checkbox')) {
         toggleTaskCompletion(taskId);
-      } else if (e.target.classList.contains('edit-task')) {
+      } 
+      // Handle edit button click (button or its children)
+      else if (e.target.classList.contains('edit-task') || e.target.closest('.edit-task')) {
+        e.preventDefault();
+        e.stopPropagation();
         editTask(taskId);
-      } else if (e.target.classList.contains('delete-task')) {
+      } 
+      // Handle delete button click (button or its children)
+      else if (e.target.classList.contains('delete-task') || e.target.closest('.delete-task')) {
+        e.preventDefault();
+        e.stopPropagation();
         deleteTask(taskId);
       }
     });

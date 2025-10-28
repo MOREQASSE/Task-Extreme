@@ -3058,23 +3058,83 @@ footer {
   border: 1px solid #4d7c0f;
 }
 
-/* Priority Colors - Enhanced with better contrast */
+/* Priority Colors - Enhanced with better contrast and task backgrounds */
+.task-item[data-priority="high"] {
+  background-color: rgba(255, 200, 200, 0.7);
+  border-left: 4px solid #ff0000;
+  transition: all 0.2s ease;
+}
+
+.task-item[data-priority="medium"] {
+  background-color: rgba(255, 230, 150, 0.7);
+  border-left: 4px solid #ff9500;
+  transition: all 0.2s ease;
+}
+
+.task-item[data-priority="low"] {
+  background-color: rgba(180, 255, 200, 0.7);
+  border-left: 4px solid #00cc66;
+  transition: all 0.2s ease;
+}
+
+/* Dark theme adjustments */
+[data-theme="dark"] .task-item[data-priority="high"] {
+  background-color: rgba(150, 30, 30, 0.4);
+}
+
+[data-theme="dark"] .task-item[data-priority="medium"] {
+  background-color: rgba(180, 90, 0, 0.4);
+}
+
+[data-theme="dark"] .task-item[data-priority="low"] {
+  background-color: rgba(0, 120, 60, 0.4);
+}
+
+/* Priority badge styles */
 .task-priority-badge[data-priority="high"] {
-  background: linear-gradient(135deg, #ef4444, #dc2626);
+  background: linear-gradient(135deg, #ff3333, #cc0000);
   color: white;
-  border: 1px solid #b91c1c;
+  border: 1px solid #990000;
 }
 
 .task-priority-badge[data-priority="medium"] {
-  background: linear-gradient(135deg, #f59e0b, #d97706);
+  background: linear-gradient(135deg, #ffaa00, #cc8800);
   color: white;
-  border: 1px solid #b45309;
+  border: 1px solid #996600;
 }
 
 .task-priority-badge[data-priority="low"] {
-  background: linear-gradient(135deg, #10b981, #059669);
+  background: linear-gradient(135deg, #00cc66, #00994d);
   color: white;
-  border: 1px solid #047857;
+  border: 1px solid #006633;
+}
+
+/* Hover effects */
+.task-item[data-priority="high"]:hover {
+  background-color: rgba(255, 200, 200, 0.9);
+  transform: translateX(2px);
+}
+
+.task-item[data-priority="medium"]:hover {
+  background-color: rgba(255, 230, 150, 0.9);
+  transform: translateX(2px);
+}
+
+.task-item[data-priority="low"]:hover {
+  background-color: rgba(180, 255, 200, 0.9);
+  transform: translateX(2px);
+}
+
+[data-theme="dark"] .task-item[data-priority="high"]:hover {
+  background-color: rgba(180, 30, 30, 0.6);
+}
+
+[data-theme="dark"] .task-item[data-priority="medium"]:hover {
+  background-color: rgba(200, 100, 0, 0.6);
+}
+
+[data-theme="dark"] .task-item[data-priority="low"]:hover {
+  background-color: rgba(0, 150, 70, 0.6);
 }
 
 /* ===== PROGRESS DASHBOARD STYLES ===== */

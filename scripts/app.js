@@ -413,6 +413,11 @@ function createTaskElement(task) {
     li.classList.add('completed');
   }
   
+  // Add priority data attribute for styling
+  if (task.priority) {
+    li.setAttribute('data-priority', task.priority);
+  }
+  
   const timeDisplay = task.timeStart && task.timeEnd 
     ? `${task.timeStart} - ${task.timeEnd}`
     : task.timeStart 
@@ -421,9 +426,7 @@ function createTaskElement(task) {
   
   const repeatBadge = task.repeat ? `<span class="task-repeat">${task.repeat === 'everyday' ? 'Daily' : 'Custom'}</span>` : '';
   
-  // Category and priority badges
   const categoryBadge = task.category ? `<span class="task-category-badge" data-category="${task.category}">${getCategoryEmoji(task.category)} ${task.category}</span>` : '';
-  const priorityBadge = task.priority ? `<span class="task-priority-badge" data-priority="${task.priority}">${getPriorityEmoji(task.priority)} ${task.priority}</span>` : '';
   
   li.innerHTML = `
     <input type="checkbox" class="task-checkbox" ${checked[task.id] ? 'checked' : ''} data-task-id="${task.id}">
@@ -431,7 +434,6 @@ function createTaskElement(task) {
       <div class="task-header">
         <div class="task-title">${task.title}</div>
         ${categoryBadge}
-        ${priorityBadge}
       </div>
       ${timeDisplay ? `<div class="task-time">${timeDisplay}</div>` : ''}
       ${task.details ? `<div class="task-details">${task.details}</div>` : ''}
@@ -452,17 +454,17 @@ function createTaskElement(task) {
 
 // Helper functions for category and priority
 function getCategoryEmoji(category) {
-  const emojis = {
-    work: '💼',
-    personal: '👤',
-    health: '🏥',
-    education: '📚',
-    finance: '💰',
-    home: '🏠',
-    social: '👥',
-    hobby: '🎨'
+  const icons = {
+    work: '<i class="fas fa-briefcase"></i>',
+    personal: '<i class="fas fa-user"></i>',
+    health: '<i class="fas fa-heartbeat"></i>',
+    education: '<i class="fas fa-graduation-cap"></i>',
+    finance: '<i class="fas fa-money-bill-wave"></i>',
+    home: '<i class="fas fa-home"></i>',
+    social: '<i class="fas fa-users"></i>',
+    hobby: '<i class="fas fa-paint-brush"></i>'
   };
-  return emojis[category] || '📋';
+  return icons[category] || '<i class="fas fa-tag"></i>';
 }
 
 function getPriorityEmoji(priority) {

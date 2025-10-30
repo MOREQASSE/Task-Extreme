@@ -16,6 +16,7 @@
   <link rel="icon" type="image/png" href="images/icon.png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="./styles/main.css"/>
+  <link rel="stylesheet" href="./styles/kanban.css"/>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script> <!--PDF generation js library-->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.29/jspdf.plugin.autotable.min.js"></script><!--PDF Tables and rows formation js library-->
   <script type="module" src="/js/offline.js"></script>
@@ -586,6 +587,10 @@
         <section id="tasks-section" class="card-section">
             <h2 id="tasks-day-title"></h2>
             <div class="tasks-header">
+                <div class="view-toggle">
+                    <button id="view-toggle-list" class="active">Task List</button>
+                    <button id="view-toggle-kanban">Kanban Board</button>
+                </div>
                 <button id="delete-all-tasks-btn" class="btn-danger" style="display: none;">
                     <span class="btn-icon"><i class="fas fa-trash-alt"></i></span>
                     <span class="btn-text">Delete All Tasks for Today</span>
@@ -617,6 +622,7 @@
                 </div>
             </div>
             <ul id="tasks-list"></ul>
+            <div id="kanban-board"></div>
         </section>
 
         <!-- Calendar Section -->
@@ -1044,6 +1050,7 @@
     <script src="./scripts/pdf-export.js"></script>
     <script src="./scripts/ai-client.js"></script>
     <script src="./scripts/app.js"></script>
+    <script src="./scripts/kanban.js"></script>
     <script src="./scripts/calendar2.js"></script>
     <script src="./scripts/focus-mode.js"></script>
     <script src="./scripts/quick-notes.js"></script>
